@@ -24,6 +24,7 @@ for a [Slim Application](http://www.slimframework.com/) V3
 
 For an example application that uses this library, please see [Slim-DIC Example](https://github.com/the-matrix/Slim-Dic-Example)
 
+
 ## Why?
 
 The Slim framework is great for lightweight sites and in version V3 adopts the interop
