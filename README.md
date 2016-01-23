@@ -2,8 +2,6 @@
 
 ## Quality Assurance
 
-Coming soon!
-
 [![Build Status](https://travis-ci.org/chippyash/Slim-Symfony-Dic.svg?branch=master)](https://travis-ci.org/chippyash/Slim-Symfony-Dic)
 [![Code Climate](https://codeclimate.com/github/chippyash/Slim-Symfony-Dic/badges/gpa.svg)](https://codeclimate.com/github/chippyash/Slim-Symfony-Dic)
 [![Test Coverage](https://codeclimate.com/github/chippyash/Slim-Symfony-Dic/badges/coverage.svg)](https://codeclimate.com/github/chippyash/Slim-Symfony-Dic/coverage)
