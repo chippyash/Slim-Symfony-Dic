@@ -59,7 +59,6 @@ abstract class Builder
      *
      * @param StringType $definitionXmlFile full path to xml dic definition file
      * @param StringType $cacheDir path to directory to store dic cached version
-     * @param BoolType $cacheTheDic If true then attempt to load dic from cache and write it if not found
      * @param BoolType $dumpResolvedXmlFile If true will also dump the DI as a fully resolved xml file
      *
      * @throws \Exception
@@ -68,15 +67,14 @@ abstract class Builder
      */
     public static function getApp(
         StringType $definitionXmlFile,
-        StringType $cacheDir,
-        BoolType $cacheTheDic = null,
+        StringType $cacheDir = null,
         BoolType $dumpResolvedXmlFile = null)
     {
         return FFor::create(self::grabFunctionParameters(__CLASS__, __FUNCTION__, func_get_args()))
-            ->caching(function($cacheTheDic) {
-                return Match::on($cacheTheDic)
+            ->caching(function($cacheDir) {
+                return Match::on($cacheDir)
                     ->null(function() {return false;})
-                    ->any(function($cacheTheDic) {return $cacheTheDic();})
+                    ->any(function() {return true;})
                     ->value();
             })
             ->noCacheTest(function($cacheDir, $caching) {
@@ -88,15 +86,15 @@ abstract class Builder
             ->diCacheName(function($cacheDir) {
                 return $cacheDir . self::CACHE_PHP_NAME;
             })
-            ->app(function($caching, $diCacheName, $definitionXmlFile, $cacheDir, $cacheTheDic, $dumpResolvedXmlFile) {
+            ->app(function($caching, $diCacheName, $definitionXmlFile, $cacheDir, $dumpResolvedXmlFile) {
                 return new App(
                     Match::on(Option::create($caching && file_exists($diCacheName), false))
                         ->Monad_Option_Some(function() use ($diCacheName) {
                             require_once $diCacheName;
                             return new \ProjectServiceContainer();
                         })
-                        ->Monad_Option_None(function() use ($definitionXmlFile, $cacheDir, $cacheTheDic, $dumpResolvedXmlFile) {
-                            return self::buildDic($definitionXmlFile, $cacheDir, $cacheTheDic, $dumpResolvedXmlFile);
+                        ->Monad_Option_None(function() use ($definitionXmlFile, $cacheDir, $dumpResolvedXmlFile) {
+                            return self::buildDic($definitionXmlFile, $cacheDir, $dumpResolvedXmlFile);
                         })
                         ->value()
                 );
@@ -113,7 +111,6 @@ abstract class Builder
      * 
      * @param StringType $definitionXmlFile full path to xml dic definition file
      * @param StringType $cacheDir path to directory to store dic cached version
-     * @param BoolType $cacheTheDic If true then attempt to load dic from cache and write it if not found
      * @param BoolType $dumpResolvedXmlFile If true will also dump the DI as a fully resolved xml file
      *
      * @throws \Exception
@@ -122,15 +119,14 @@ abstract class Builder
      */
     public static function buildDic(
         StringType $definitionXmlFile,
-        StringType $cacheDir,
-        BoolType $cacheTheDic = null,
+        StringType $cacheDir = null,
         BoolType $dumpResolvedXmlFile = null)
     {
         if (!file_exists($definitionXmlFile())) {
             throw new \Exception(self::ERR_NO_DIC);
         }
 
-        if (!file_exists($cacheDir())) {
+        if (!is_null($cacheDir) && !file_exists($cacheDir())) {
             throw new \Exception(self::ERR_NO_CACHE_DIR);
         }
 
@@ -142,24 +138,26 @@ abstract class Builder
             })
             //do some processing on the DIC
             ->process(function($dic, $definitionXmlFile) {
-                $loader = new XmlFileLoader($dic, new FileLocator(dirname($definitionXmlFile())));
-                $loader->load($definitionXmlFile());
+                (new XmlFileLoader($dic, new FileLocator(dirname($definitionXmlFile()))))
+                    ->load($definitionXmlFile());
                 $dic->compile();
             })
             //return the completed DIC
             ->fyield('dic');
 
         //and cache it
-        if (!is_null($cacheTheDic) && $cacheTheDic()) {
-            $dumper = new PhpDumper($dic);
-            $diCacheName = $cacheDir . self::CACHE_PHP_NAME;
-            file_put_contents($diCacheName, $dumper->dump(['base_class' => 'Slimdic\Dic\Container']));
+        if (!is_null($cacheDir)) {
+            file_put_contents(
+                $cacheDir . self::CACHE_PHP_NAME,
+                (new PhpDumper($dic))->dump(['base_class' => 'Slimdic\Dic\Container'])
+            );
         }
 
         if (!is_null($dumpResolvedXmlFile) && $dumpResolvedXmlFile()) {
-            $xmlCacheName = $cacheDir . self::CACHE_XML_NAME;
-            $xmlDumper = new XmlDumper($dic);
-            file_put_contents($xmlCacheName, $xmlDumper->dump());
+            file_put_contents(
+                $cacheDir . self::CACHE_XML_NAME,
+                (new XmlDumper($dic))->dump()
+            );
         }
         
         return $dic;

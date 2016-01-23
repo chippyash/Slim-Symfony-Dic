@@ -1,4 +1,4 @@
-# chippyash/Slim-Dic
+# chippyash/Slim-Symfony-Dic
 
 ## Quality Assurance
 
@@ -7,22 +7,45 @@ Coming soon!
 ## What?
 
 Provides [Symfony Dependency Injection](http://symfony.com/doc/current/components/dependency_injection/introduction.html) 
-for a [Slim Application](http://www.slimframework.com/)
-
-Also provides a minimalist Controller pattern class for use in your applications.
+for a [Slim Application](http://www.slimframework.com/) V3
 
 For an example application that uses this library, please see [Slim-DIC Example](https://github.com/the-matrix/Slim-Dic-Example)
 
 ## Why?
 
-The Slim framework is great for lightweight sites but lacks the ease of creating
-testable, adaptable code that can be found when adopting a strict DI approach to development.
+The Slim framework is great for lightweight sites and in version V3 adopts the interop
+interfaces for dependency injection containers. Slim V3 uses the Pimple DI by default.
+Symfony DI does not yet support the interop interface definition.
 
 This small library supports the integration of the easy to use, yet powerful
 Symfony version of a DI container with the lightweight Slim Framework, giving 
 you the ability to create great, maintainable and configurable web sites quickly.
 
+The Builder supports XML DI definition.  XML is the most powerful and complete form 
+of Symfony DI configuration.
+
 ## How?
+
+<pre>
+use chippyash\Type\BoolType;
+use chippyash\Type\String\StringType;
+use Slimdic\Dic\Builder;
+
+$xmlDiFileLocation = '/mysite/cfg/dic.production.xml';
+$spoolDir = '/mysite/spool';
+
+/**
+ * @var Slim\App
+ */
+$app = Builder::getApp(
+    new StringType($xmlDiFileLocation),
+    new StringType($spoolDir)
+);
+</pre>
+
+Please see the examples/dic.slim.xml for the minimum that you need to build the DIC
+with to support Slim.  You are recommended to put the file in with the rest of your
+DI configs and use the <imports> directive in your main config to pull it in.
 
 ## Changing the library
 

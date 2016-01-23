@@ -39,8 +39,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     public function testYouCanCreateAContainer()
     {
         $dic = Builder::buildDic(
-            new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName),
-            new StringType($this->rootPath . '/spool')
+            new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName)
         );
         $this->assertInstanceOf('Slimdic\Dic\Container', $dic);
     }
@@ -49,8 +48,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     {
         $dic = Builder::buildDic(
             new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName),
-            new StringType($this->rootPath . '/spool'),
-            new BoolType(true)
+            new StringType($this->rootPath . '/spool')
         );
         $this->assertInstanceOf('Slimdic\Dic\Container', $dic);
         $this->assertTrue(file_exists($this->rootPath . '/spool' . Builder::CACHE_PHP_NAME));
@@ -62,11 +60,10 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $dic = Builder::buildDic(
             new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName),
             new StringType($this->rootPath . '/spool'),
-            null,
             new BoolType(true)
         );
         $this->assertInstanceOf('Slimdic\Dic\Container', $dic);
-        $this->assertFalse(file_exists($this->rootPath . '/spool' . Builder::CACHE_PHP_NAME));
+        $this->assertTrue(file_exists($this->rootPath . '/spool' . Builder::CACHE_PHP_NAME));
         $this->assertTrue(file_exists($this->rootPath . '/spool' . Builder::CACHE_XML_NAME));
     }
 
@@ -77,9 +74,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     public function testSpecifyingANonExistentDefinitionFileWillThrowAnException()
     {
         Builder::buildDic(
-            new StringType('foo.xml'),
-            new StringType($this->rootPath . '/spool'),
-            new BoolType(true)
+            new StringType('foo.xml')
         );
     }
 
@@ -91,16 +86,14 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     {
         Builder::buildDic(
             new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName),
-            new StringType('/foo'),
-            new BoolType(true)
+            new StringType('/foo')
         );
     }
 
     public function testYouCanCreateAnApplicationWithAnInteropCompatibleSymfonyContainer()
     {
         $app = Builder::getApp(
-            new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName),
-            new StringType($this->rootPath . '/spool')
+            new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName)
         );
         $this->assertInstanceOf('Slim\App', $app);
         $this->assertInstanceOf('Symfony\Component\DependencyInjection\Container', $app->getContainer());
@@ -111,14 +104,12 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     {
         Builder::buildDic(
             new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName),
-            new StringType($this->rootPath . '/spool'),
-            new BoolType(true)
+            new StringType($this->rootPath . '/spool')
         );
 
         Builder::getApp(
             new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName),
-            new StringType($this->rootPath . '/spool'),
-            new BoolType(true)
+            new StringType($this->rootPath . '/spool')
         );
 
         $this->assertTrue(file_exists($this->rootPath . '/spool' . Builder::CACHE_PHP_NAME));
@@ -132,8 +123,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     {
         Builder::getApp(
             new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName),
-            new StringType('/foo'),
-            new BoolType(true)
+            new StringType('/foo')
         );
     }
 
@@ -142,10 +132,9 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         Builder::getApp(
             new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName),
             new StringType($this->rootPath . '/spool'),
-            null,
             new BoolType(true)
         );
-        $this->assertFalse(file_exists($this->rootPath . '/spool' . Builder::CACHE_PHP_NAME));
+        $this->assertTrue(file_exists($this->rootPath . '/spool' . Builder::CACHE_PHP_NAME));
         $this->assertTrue(file_exists($this->rootPath . '/spool' . Builder::CACHE_XML_NAME));
     }
 
