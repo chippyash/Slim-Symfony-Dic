@@ -16,6 +16,8 @@ engines:
         enabled: false
       Naming/ShortVariable:
         enabled: false
+      Similar code:
+        enabled: false
     exclude_fingerprints:
       - 8d3cdbac72fbd348555f686bbd5dd0cb
       - d54b0e3433933a74e6da84cd6ca22b03
