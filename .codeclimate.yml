@@ -9,6 +9,17 @@ engines:
     enabled: true
   phpmd:
     enabled: true
+    checks:
+      CleanCode/StaticAccess:
+        enabled: false
+      Design/CouplingBetweenObjects:
+        enabled: false
+      Naming/ShortVariable:
+        enabled: false
+    exclude_fingerprints:
+      - 8d3cdbac72fbd348555f686bbd5dd0cb
+      - d54b0e3433933a74e6da84cd6ca22b03
+      - ca0ee94769b80d1f86e5e4ac7164be41
 ratings:
   paths:
   - "**.php"
