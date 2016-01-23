@@ -1,6 +1,6 @@
 <?php
 /**
- * Slim-Dic
+ * Slim-Symfony-Dic
  *
  * @author Ashley Kitson
  * @copyright Ashley Kitson, 2016, UK

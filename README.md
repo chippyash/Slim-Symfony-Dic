@@ -42,6 +42,7 @@ To create and return a Slim\App object with a Symfony DIC:
 <pre>
 use chippyash\Type\BoolType;
 use chippyash\Type\String\StringType;
+use chippyash\Type\BoolType;
 use Slimdic\Dic\Builder;
 
 $xmlDiFileLocation = '/mysite/cfg/dic.production.xml';
@@ -112,11 +113,13 @@ NB. Make sure you rebase to HEAD before your pull request
 
 ## Where?
 
-The library is hosted at [Github](https://github.com/chippyash/Slim-Dic). It is
-available at [Packagist.org](https://packagist.org/packages/chippyash/slim-dic)
+The library is hosted at [Github](https://github.com/chippyash/Slim-Symfony-Dic). It is
+available at [Packagist.org](https://packagist.org/packages/chippyash/slim-symfony-dic)
 
 See [The (PHP) Matrix](http://the-matrix.github.io/packages/) for more PHP packages from
 this author.
+
+See [My blog](http://zf4.biz) for ramblings on coding and curries
 
 ### Installation
 
