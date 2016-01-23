@@ -58,7 +58,7 @@ $app = Builder::getApp(
 
 Please see the examples/dic.slim.xml for the minimum that you need to build the DIC
 with to support Slim.  You are recommended to put the file in with the rest of your
-DI configs and use the <imports> directive in your main config to pull it in.
+DI configs and use the `<imports>` directive in your main config to pull it in.
 
 You can optionally have the builder write and read a cached version of the DIC by
 supplying the path to directory in which to store (commonly called a spool directory)
