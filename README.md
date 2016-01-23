@@ -110,6 +110,8 @@ Found a bug you can't figure out?
 2.  write the test
 3.  do a pull request
 
+or raise an issue ticket
+
 NB. Make sure you rebase to HEAD before your pull request
 
 ## Where?
