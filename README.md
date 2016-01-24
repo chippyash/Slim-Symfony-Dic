@@ -110,10 +110,10 @@ then it important to note that it will only be called once, i.e. when the contai
 is first compiled.
 
 <pre>
-use Slimdic\Dic\Container;
+use Slimdic\Dic\ServiceContainer;
 use Symfony\Component\DependencyInjection\Definition;
 
-Builder::registerPreCompileFunction(function(Container $dic) {
+Builder::registerPreCompileFunction(function(ServiceContainer $dic) {
     //set a parameter
     $dic->setParameter('foo', 'bar');
     //set up a synthetic
@@ -135,13 +135,13 @@ The post compile function only really makes sense to set a synthetic definition 
 after compilation the rest of the DI Container is frozen and cannot be changed.
 
 <pre>
-use Slimdic\Dic\Container;
+use Slimdic\Dic\ServiceContainer;
 
-Builder::registerPreCompileFunction(function(Container $dic) {
+Builder::registerPreCompileFunction(function(ServiceContainer $dic) {
     $dic->setDefinition('foo', (new Definition())->setSynthetic(true));
 });
 
-Builder::registerPostCompileFunction(function(Container $dic, $stage) {
+Builder::registerPostCompileFunction(function(ServiceContainer $dic, $stage) {
     if($stage == Builder::COMPILE_STAGE_APP) {
         $dic->set('foo', 'bar');
     }

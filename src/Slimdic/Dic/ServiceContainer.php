@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 /**
  * Provide Interop compatible DI container for the Symfony container
  */
-class Container extends ContainerBuilder implements IOPContainerInterface
+class ServiceContainer extends ContainerBuilder implements IOPContainerInterface
 {
 
     /**

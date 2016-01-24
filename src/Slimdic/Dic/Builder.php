@@ -107,8 +107,8 @@ abstract class Builder
                 return new App(
                     Match::on(Option::create($caching && file_exists($diCacheName), false))
                         ->Monad_Option_Some(function() use ($diCacheName) {
-                            require_once $diCacheName;
-                            return new \ProjectServiceContainer();
+                            include $diCacheName;
+                            return new \Slimdic\Dic\SlimdicServiceContainer();
                         })
                         ->Monad_Option_None(function() use ($definitionXmlFile, $cacheDir, $dumpResolvedXmlFile) {
                             return self::buildDic($definitionXmlFile, $cacheDir, $dumpResolvedXmlFile);
@@ -154,7 +154,7 @@ abstract class Builder
         $dic = FFor::create(['definitionXmlFile' => $definitionXmlFile])
             //create the DIC
             ->dic(function(){
-                return new Container();
+                return new ServiceContainer();
             })
             //do some processing on the DIC
             ->process(function($dic, $definitionXmlFile) {
@@ -171,7 +171,13 @@ abstract class Builder
         if (!is_null($cacheDir)) {
             file_put_contents(
                 $cacheDir . self::CACHE_PHP_NAME,
-                (new PhpDumper($dic))->dump(['base_class' => 'Slimdic\Dic\Container'])
+                (new PhpDumper($dic))->dump(
+                    [
+                        'class' => 'SlimdicServiceContainer',
+                        'base_class' => '\Slimdic\Dic\ServiceContainer',
+                        'namespace' => 'Slimdic\Dic'
+                    ]
+                )
             );
         }
 
@@ -198,7 +204,7 @@ abstract class Builder
     /**
      * Register a function to be called just before compiling the DI
      *
-     * Function signature is function(Slim\Dic\Container $dic)
+     * Function signature is function(Slim\Dic\ServiceContainer $dic)
      *
      * @param callable $func
      */
@@ -210,7 +216,7 @@ abstract class Builder
     /**
      * Register a function to be called just after compiling the DI
      *
-     * Function signature is function(Slim\Dic\Container $dic, int $stage)
+     * Function signature is function(Slim\Dic\ServiceContainer $dic, int $stage)
      *
      * @param callable $func
      */
@@ -222,9 +228,9 @@ abstract class Builder
     /**
      * Do some processing on dic before compilation
      *
-     * @param Container $dic
+     * @param ServiceContainer $dic
      */
-    protected static function preCompile(Container $dic) {
+    protected static function preCompile(ServiceContainer $dic) {
         if (empty(self::$preCompileFunction)) {
             return;
         }
@@ -235,10 +241,10 @@ abstract class Builder
     /**
      * Do some processing on dic after compilation
      *
-     * @param Container $dic
+     * @param ServiceContainer $dic
      * @param int $stage
      */
-    protected static function postCompile(Container $dic, $stage) {
+    protected static function postCompile(ServiceContainer $dic, $stage) {
         if (empty(self::$postCompileFunction)) {
             return;
         }

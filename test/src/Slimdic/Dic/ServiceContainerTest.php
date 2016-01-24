@@ -9,20 +9,20 @@
 
 namespace Slimdic\Test\Dic;
 
-use Slimdic\Dic\Container;
+use Slimdic\Dic\ServiceContainer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class ContainerTest extends \PHPUnit_Framework_TestCase
+class ServiceContainerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * System Under Test
-     * @var Container
+     * @var ServiceContainer
      */
     protected $sut;
 
     protected function setUp()
     {
-        $this->sut = new Container();
+        $this->sut = new ServiceContainer();
         $this->sut->setParameter('parameter', 'foo');
         $this->sut->set('service', new \stdClass());
     }

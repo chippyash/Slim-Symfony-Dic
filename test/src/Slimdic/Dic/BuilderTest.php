@@ -13,9 +13,12 @@ use chippyash\Type\BoolType;
 use chippyash\Type\String\StringType;
 use org\bovigo\vfs\vfsStream;
 use Slimdic\Dic\Builder;
-use Slimdic\Dic\Container;
+use Slimdic\Dic\ServiceContainer;
 use Symfony\Component\DependencyInjection\Definition;
 
+/**
+ * Class BuilderTest
+ */
 class BuilderTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -43,7 +46,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $dic = Builder::buildDic(
             new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName)
         );
-        $this->assertInstanceOf('Slimdic\Dic\Container', $dic);
+        $this->assertInstanceOf('Slimdic\Dic\ServiceContainer', $dic);
     }
 
     public function testYouCanCreateAContainerAndCacheACopy()
@@ -52,7 +55,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName),
             new StringType($this->rootPath . '/spool')
         );
-        $this->assertInstanceOf('Slimdic\Dic\Container', $dic);
+        $this->assertInstanceOf('Slimdic\Dic\ServiceContainer', $dic);
         $this->assertTrue(file_exists($this->rootPath . '/spool' . Builder::CACHE_PHP_NAME));
         $this->assertFalse(file_exists($this->rootPath . '/spool' . Builder::CACHE_XML_NAME));
     }
@@ -64,7 +67,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             new StringType($this->rootPath . '/spool'),
             new BoolType(true)
         );
-        $this->assertInstanceOf('Slimdic\Dic\Container', $dic);
+        $this->assertInstanceOf('Slimdic\Dic\ServiceContainer', $dic);
         $this->assertTrue(file_exists($this->rootPath . '/spool' . Builder::CACHE_PHP_NAME));
         $this->assertTrue(file_exists($this->rootPath . '/spool' . Builder::CACHE_XML_NAME));
     }
@@ -142,7 +145,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testYouCanDoPreCompilationTasksByRegisteringAPrecompileFunction()
     {
-        Builder::registerPreCompileFunction(function(Container $dic) {
+        Builder::registerPreCompileFunction(function(ServiceContainer $dic) {
             $dic->setParameter('foo', 'bar');
         });
         $dic = Builder::buildDic(
@@ -153,10 +156,10 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testYouCanDoPostCompilationInBuildStageTasksByRegisteringAPostcompileFunction()
     {
-        Builder::registerPreCompileFunction(function(Container $dic) {
+        Builder::registerPreCompileFunction(function(ServiceContainer $dic) {
             $dic->setDefinition('foo', (new Definition())->setSynthetic(true));
         });
-        Builder::registerPostCompileFunction(function(Container $dic, $stage) {
+        Builder::registerPostCompileFunction(function(ServiceContainer $dic, $stage) {
             if($stage == Builder::COMPILE_STAGE_BUILD) {
                 $dic->set('foo', 'bar');
             }
@@ -169,10 +172,10 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testYouCanDoPostCompilationInAppStageTasksByRegisteringAPostcompileFunction()
     {
-        Builder::registerPreCompileFunction(function(Container $dic) {
+        Builder::registerPreCompileFunction(function(ServiceContainer $dic) {
             $dic->setDefinition('foo', (new Definition())->setSynthetic(true));
         });
-        Builder::registerPostCompileFunction(function(Container $dic, $stage) {
+        Builder::registerPostCompileFunction(function(ServiceContainer $dic, $stage) {
             if($stage == Builder::COMPILE_STAGE_APP) {
                 $dic->set('foo', 'bar');
             }
@@ -183,32 +186,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('bar', $app->getContainer()->get('foo'));
     }
 
-    public function testTheExampleMinimalConfigurationWillCompile()
-    {
-        $exampleFile = realpath(__DIR__ . '/../../../../examples/dic.slim.xml');
-        file_put_contents(
-            $this->rootPath . '/Site/cfg/' . $this->dicFileName,
-            file_get_contents($exampleFile)
-        );
-
-        $dic = Builder::buildDic(
-            new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName),
-            new StringType($this->rootPath . '/spool')
-        );
-
-        $this->assertInstanceOf('Slimdic\Dic\Container', $dic);
-        $this->assertInstanceOf($dic->getParameter('slim.config.className.environment'), $dic->get('environment'));
-        $this->assertInstanceOf($dic->getParameter('slim.config.className.request'), $dic->get('request'));
-        $this->assertInstanceOf($dic->getParameter('slim.config.className.response'), $dic->get('response'));
-        $this->assertInstanceOf($dic->getParameter('slim.config.className.router'), $dic->get('router'));
-        $this->assertInstanceOf($dic->getParameter('slim.config.className.foundHandler'), $dic->get('foundHandler'));
-        $this->assertInstanceOf($dic->getParameter('slim.config.className.errorHandler'), $dic->get('errorHandler'));
-        $this->assertInstanceOf($dic->getParameter('slim.config.className.notAllowedHandler'), $dic->get('notAllowedHandler'));
-        $this->assertInstanceOf($dic->getParameter('slim.config.className.callableResolver'), $dic->get('callableResolver'));
-    }
-
     /**
-     * Return minimal DIC definition - same as /examples/dic.slim.xml
+     * Return minimal DIC definition
      * @return string
      */
     private function dicDefinition()
@@ -219,6 +198,14 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="foofoo">foofoo</parameter>
+    </parameters>
+
+    <services>
+        <service id="barbar" class="stdClass"/>
+    </services>
 </container>
 EOT;
     }
