@@ -184,6 +184,8 @@ Install [Composer](https://getcomposer.org/)
 
 #### For production
 
+#####Not ready for production yet - please wait for first version
+
 add
 
 <pre>
