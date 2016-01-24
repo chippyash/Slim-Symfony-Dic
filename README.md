@@ -223,6 +223,4 @@ license, which does not allow unrestricted inclusion of this code in commercial 
 
 ## History
 
-V1.0.0 Initial release
 
-V1.0.1 Add pre and post compile function handling
