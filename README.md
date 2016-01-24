@@ -95,7 +95,61 @@ to tune your DI config by looking at the XML definition thus generated.
 
 The Builder supports a second static function, `buildDic()`, that takes the same parameters
 as getApp().  You can use the function if you need some fine grained control on it
-before passing it into Slim\App.
+before passing it into Slim\App. Please note whilst `buildDic` will save a cached version
+of the DI container, it will not retrieve one if already stored.  That's the job of
+`getApp`.
+
+You can add to the compilation process by utilising the pre and post compile functions.
+This is often useful for setting up synthetic services or initialising parameters in
+the DI container.
+
+### Register a PreCompile function
+
+The PreCompile function is called just before the container is compiled. If you are caching
+then it important to note that it will only be called once, i.e. when the container
+is first compiled.
+
+<pre>
+use Slimdic\Dic\Container;
+use Symfony\Component\DependencyInjection\Definition;
+
+Builder::registerPreCompileFunction(function(Container $dic) {
+    //set a parameter
+    $dic->setParameter('foo', 'bar');
+    //set up a synthetic
+    $dic->setDefinition('bar', (new Definition())->setSynthetic(true));
+});
+$app = Builder::getApp(
+    new StringType($xmlDiFileLocation)
+);
+</pre>
+
+### Register a PostCompile function
+
+Unlike PreCompile which is called only once, the PostCompile function is called just 
+after compiling the container, and just before returning the App to you via `getApp`.
+You can specify what to run by inspecting the $stage parameter that will be passed
+into your function.
+
+The post compile function only really makes sense to set a synthetic definition as
+after compilation the rest of the DI Container is frozen and cannot be changed.
+
+<pre>
+use Slimdic\Dic\Container;
+
+Builder::registerPreCompileFunction(function(Container $dic) {
+    $dic->setDefinition('foo', (new Definition())->setSynthetic(true));
+});
+
+Builder::registerPostCompileFunction(function(Container $dic, $stage) {
+    if($stage == Builder::COMPILE_STAGE_APP) {
+        $dic->set('foo', 'bar');
+    }
+    if($stage == Builder::COMPILE_STAGE_BUILD) {
+        $dic->set('foo', 'bop');
+    }
+});
+</pre>
 
 ## Changing the library
 
@@ -168,3 +222,5 @@ license, which does not allow unrestricted inclusion of this code in commercial 
 ## History
 
 V1.0.0 Initial release
+
+V1.0.1 Add pre and post compile function handling

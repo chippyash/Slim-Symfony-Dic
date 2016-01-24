@@ -13,6 +13,9 @@
 *  You can create an application with a cached container
 *  Specifying a non existent cache directory when creating an application will throw an exception
 *  You can create an application and dump a resolved xml definition
+*  You can do pre compilation tasks by registering a precompile function
+*  You can do post compilation in build stage tasks by registering a postcompile function
+*  You can do post compilation in app stage tasks by registering a postcompile function
 *  The example minimal configuration will compile
 
 ## 

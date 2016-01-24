@@ -13,6 +13,8 @@ use chippyash\Type\BoolType;
 use chippyash\Type\String\StringType;
 use org\bovigo\vfs\vfsStream;
 use Slimdic\Dic\Builder;
+use Slimdic\Dic\Container;
+use Symfony\Component\DependencyInjection\Definition;
 
 class BuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -136,6 +138,49 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertTrue(file_exists($this->rootPath . '/spool' . Builder::CACHE_PHP_NAME));
         $this->assertTrue(file_exists($this->rootPath . '/spool' . Builder::CACHE_XML_NAME));
+    }
+
+    public function testYouCanDoPreCompilationTasksByRegisteringAPrecompileFunction()
+    {
+        Builder::registerPreCompileFunction(function(Container $dic) {
+            $dic->setParameter('foo', 'bar');
+        });
+        $dic = Builder::buildDic(
+            new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName)
+        );
+        $this->assertEquals('bar', $dic->get('foo'));
+    }
+
+    public function testYouCanDoPostCompilationInBuildStageTasksByRegisteringAPostcompileFunction()
+    {
+        Builder::registerPreCompileFunction(function(Container $dic) {
+            $dic->setDefinition('foo', (new Definition())->setSynthetic(true));
+        });
+        Builder::registerPostCompileFunction(function(Container $dic, $stage) {
+            if($stage == Builder::COMPILE_STAGE_BUILD) {
+                $dic->set('foo', 'bar');
+            }
+        });
+        $dic = Builder::buildDic(
+            new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName)
+        );
+        $this->assertEquals('bar', $dic->get('foo'));
+    }
+
+    public function testYouCanDoPostCompilationInAppStageTasksByRegisteringAPostcompileFunction()
+    {
+        Builder::registerPreCompileFunction(function(Container $dic) {
+            $dic->setDefinition('foo', (new Definition())->setSynthetic(true));
+        });
+        Builder::registerPostCompileFunction(function(Container $dic, $stage) {
+            if($stage == Builder::COMPILE_STAGE_APP) {
+                $dic->set('foo', 'bar');
+            }
+        });
+        $app = Builder::getApp(
+            new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName)
+        );
+        $this->assertEquals('bar', $app->getContainer()->get('foo'));
     }
 
     public function testTheExampleMinimalConfigurationWillCompile()

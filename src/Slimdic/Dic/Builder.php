@@ -51,7 +51,24 @@ abstract class Builder
      * Error string
      */
     const ERR_NO_CACHE_DIR = 'Cache directory does not exist';
-    
+
+    /**#@+
+     * Flags for post compile stages
+     */
+    const COMPILE_STAGE_BUILD = 0;
+    const COMPILE_STAGE_APP = 1;
+    /**#@-*/
+
+    /**
+     * @var callable
+     */
+    protected static $preCompileFunction;
+
+    /**
+     * @var callable
+     */
+    protected static $postCompileFunction;
+
     /**
      * Build the DIC and return the Slim\App application component
      *
@@ -99,6 +116,9 @@ abstract class Builder
                         ->value()
                 );
             })
+            ->postCompile(function($app) {
+                self::postCompile($app->getContainer(), self::COMPILE_STAGE_APP);
+            })
             ->fyield('app');
     }
     
@@ -140,7 +160,9 @@ abstract class Builder
             ->process(function($dic, $definitionXmlFile) {
                 (new XmlFileLoader($dic, new FileLocator(dirname($definitionXmlFile()))))
                     ->load($definitionXmlFile());
+                self::preCompile($dic);
                 $dic->compile();
+                self::postCompile($dic, self::COMPILE_STAGE_BUILD);
             })
             //return the completed DIC
             ->fyield('dic');
@@ -171,5 +193,56 @@ abstract class Builder
     public static function getServerConfig()
     {
         return $_SERVER;
+    }
+
+    /**
+     * Register a function to be called just before compiling the DI
+     *
+     * Function signature is function(Slim\Dic\Container $dic)
+     *
+     * @param callable $func
+     */
+    public static function registerPreCompileFunction(callable $func)
+    {
+        self::$preCompileFunction = $func;
+    }
+
+    /**
+     * Register a function to be called just after compiling the DI
+     *
+     * Function signature is function(Slim\Dic\Container $dic, int $stage)
+     *
+     * @param callable $func
+     */
+    public static function registerPostCompileFunction(callable $func)
+    {
+        self::$postCompileFunction = $func;
+    }
+
+    /**
+     * Do some processing on dic before compilation
+     *
+     * @param Container $dic
+     */
+    protected static function preCompile(Container $dic) {
+        if (empty(self::$preCompileFunction)) {
+            return;
+        }
+        $func = self::$preCompileFunction;
+        $func($dic);
+    }
+
+    /**
+     * Do some processing on dic after compilation
+     *
+     * @param Container $dic
+     * @param int $stage
+     */
+    protected static function postCompile(Container $dic, $stage) {
+        if (empty(self::$postCompileFunction)) {
+            return;
+        }
+        $func = self::$postCompileFunction;
+        $func($dic, $stage);
     }
 }
