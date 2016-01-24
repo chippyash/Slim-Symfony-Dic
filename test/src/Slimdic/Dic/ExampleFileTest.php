@@ -21,16 +21,11 @@ use Symfony\Component\DependencyInjection\Definition;
  */
 class ExampleFileTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testCachedExampleFileContainerBehavesProperly()
     {
         $exampleFile = realpath(__DIR__ . '/../../../../examples/dic.slim.xml');
 
-        //this should get the cached version
-        $dic = Builder::getApp(
-            new StringType($exampleFile),
-            new StringType(__DIR__ . '/Stubs')
-        )->getContainer();
+        $dic = Builder::buildDic(new StringType($exampleFile));
 
         $this->assertInstanceOf('Slimdic\Dic\ServiceContainer', $dic);
         $this->assertInstanceOf($dic->getParameter('slim.config.classname.environment'), $dic->get('environment'));

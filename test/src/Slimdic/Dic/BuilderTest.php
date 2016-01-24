@@ -49,29 +49,6 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Slimdic\Dic\ServiceContainer', $dic);
     }
 
-    public function testYouCanCreateAContainerAndCacheACopy()
-    {
-        $dic = Builder::buildDic(
-            new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName),
-            new StringType($this->rootPath . '/spool')
-        );
-        $this->assertInstanceOf('Slimdic\Dic\ServiceContainer', $dic);
-        $this->assertTrue(file_exists($this->rootPath . '/spool' . Builder::CACHE_PHP_NAME));
-        $this->assertFalse(file_exists($this->rootPath . '/spool' . Builder::CACHE_XML_NAME));
-    }
-
-    public function testYouCanCreateAContainerAndDumpAResolvedXmlDefinition()
-    {
-        $dic = Builder::buildDic(
-            new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName),
-            new StringType($this->rootPath . '/spool'),
-            new BoolType(true)
-        );
-        $this->assertInstanceOf('Slimdic\Dic\ServiceContainer', $dic);
-        $this->assertTrue(file_exists($this->rootPath . '/spool' . Builder::CACHE_PHP_NAME));
-        $this->assertTrue(file_exists($this->rootPath . '/spool' . Builder::CACHE_XML_NAME));
-    }
-
     /**
      * @expectedException \Exception
      * @expectedExceptionMessage Cannot find DIC definition
@@ -81,66 +58,6 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         Builder::buildDic(
             new StringType('foo.xml')
         );
-    }
-
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Cache directory does not exist
-     */
-    public function testSpecifyingANonExistentCacheDirectoryWhenCreatingAContainerWillThrowAnException()
-    {
-        Builder::buildDic(
-            new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName),
-            new StringType('/foo')
-        );
-    }
-
-    public function testYouCanCreateAnApplicationWithAnInteropCompatibleSymfonyContainer()
-    {
-        $app = Builder::getApp(
-            new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName)
-        );
-        $this->assertInstanceOf('Slim\App', $app);
-        $this->assertInstanceOf('Symfony\Component\DependencyInjection\Container', $app->getContainer());
-        $this->assertInstanceOf('Interop\Container\ContainerInterface', $app->getContainer());
-    }
-
-    public function testYouCanCreateAnApplicationWithACachedContainer()
-    {
-        Builder::buildDic(
-            new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName),
-            new StringType($this->rootPath . '/spool')
-        );
-
-        Builder::getApp(
-            new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName),
-            new StringType($this->rootPath . '/spool')
-        );
-
-        $this->assertTrue(file_exists($this->rootPath . '/spool' . Builder::CACHE_PHP_NAME));
-    }
-
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Cache directory does not exist
-     */
-    public function testSpecifyingANonExistentCacheDirectoryWhenCreatingAnApplicationWillThrowAnException()
-    {
-        Builder::getApp(
-            new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName),
-            new StringType('/foo')
-        );
-    }
-
-    public function testYouCanCreateAnApplicationAndDumpAResolvedXmlDefinition()
-    {
-        Builder::getApp(
-            new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName),
-            new StringType($this->rootPath . '/spool'),
-            new BoolType(true)
-        );
-        $this->assertTrue(file_exists($this->rootPath . '/spool' . Builder::CACHE_PHP_NAME));
-        $this->assertTrue(file_exists($this->rootPath . '/spool' . Builder::CACHE_XML_NAME));
     }
 
     public function testYouCanDoPreCompilationTasksByRegisteringAPrecompileFunction()
@@ -154,36 +71,18 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('bar', $dic->get('foo'));
     }
 
-    public function testYouCanDoPostCompilationInBuildStageTasksByRegisteringAPostcompileFunction()
+    public function testYouCanDoPostCompilationTasksByRegisteringAPostcompileFunction()
     {
         Builder::registerPreCompileFunction(function(ServiceContainer $dic) {
             $dic->setDefinition('foo', (new Definition())->setSynthetic(true));
         });
-        Builder::registerPostCompileFunction(function(ServiceContainer $dic, $stage) {
-            if($stage == Builder::COMPILE_STAGE_BUILD) {
-                $dic->set('foo', 'bar');
-            }
+        Builder::registerPostCompileFunction(function(ServiceContainer $dic) {
+            $dic->set('foo', 'bar');
         });
         $dic = Builder::buildDic(
             new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName)
         );
         $this->assertEquals('bar', $dic->get('foo'));
-    }
-
-    public function testYouCanDoPostCompilationInAppStageTasksByRegisteringAPostcompileFunction()
-    {
-        Builder::registerPreCompileFunction(function(ServiceContainer $dic) {
-            $dic->setDefinition('foo', (new Definition())->setSynthetic(true));
-        });
-        Builder::registerPostCompileFunction(function(ServiceContainer $dic, $stage) {
-            if($stage == Builder::COMPILE_STAGE_APP) {
-                $dic->set('foo', 'bar');
-            }
-        });
-        $app = Builder::getApp(
-            new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName)
-        );
-        $this->assertEquals('bar', $app->getContainer()->get('foo'));
     }
 
     /**

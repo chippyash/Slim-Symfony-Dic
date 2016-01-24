@@ -1,5 +1,5 @@
 <?php
-namespace Slimdic\Dic;
+//namespace Slimdic\Dic;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Container;
@@ -9,28 +9,6 @@ use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\FrozenParameterBag;
 
-//* * * * start of backtrace debug code * * *
-$dbt = debug_backtrace();
-echo "<div><br>= = = = = = = = Backtrace = = = = = = = =<br>\n";
-for ( $d_b_t = 0 ; $d_b_t < count($dbt) ; $d_b_t++ ) {
-    if ( $d_b_t == 0 )
-        echo basename( __FILE__ ) . ' is referenced in ';
-    else {
-        echo $dbt[$d_b_t - 1]['file'] . ' is referenced in ';
-    }
-    if ( isset( $dbt[$d_b_t]['file'] ) ) {
-        echo $dbt[$d_b_t]['file'] . ' on line ';
-    }
-    if ( isset( $dbt[$d_b_t]['line'] ) ) {
-        echo $dbt[$d_b_t]['line'] . ' in a "';
-    }
-    if ( isset( $dbt[$d_b_t]['function'] ) ) {
-        echo $dbt[$d_b_t]['function'] . '"<br>' . "\n";
-    }
-}
-echo "<br>= = = = = = = = = = = = = = = = = = = = =<br>\n</div>";
-exit;
-//* * * * end of backtrace debug code * * *
 /**
  * SlimdicServiceContainer.
  *
