@@ -16,10 +16,9 @@
 *  You can do pre compilation tasks by registering a precompile function
 *  You can do post compilation in build stage tasks by registering a postcompile function
 *  You can do post compilation in app stage tasks by registering a postcompile function
-*  The example minimal configuration will compile
 
 ## 
-      Slimdic\Test\Dic\Container
+      Slimdic\Test\Dic\ServiceContainer
     
 
 *  You can test for a parameter or a service via the has method

@@ -107,7 +107,7 @@ abstract class Builder
                 return new App(
                     Match::on(Option::create($caching && file_exists($diCacheName), false))
                         ->Monad_Option_Some(function() use ($diCacheName) {
-                            include $diCacheName;
+                            include_once $diCacheName;
                             return new \Slimdic\Dic\SlimdicServiceContainer();
                         })
                         ->Monad_Option_None(function() use ($definitionXmlFile, $cacheDir, $dumpResolvedXmlFile) {
