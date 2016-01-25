@@ -13,12 +13,9 @@
     "require": {
         "php": ">=5.5",
         "slim/slim": "~3.0",
-        "symfony/filesystem": "~2.8.2",
         "symfony/dependency-injection": "~2.8.2",
-        "symfony/config": "~2.8.2",
         "symfony/expression-language": "3.0.*",
         "chippyash/strong-type": "~2.0",
-        "chippyash/monad": "~1.2.4",
         "chippyash/assembly-builder": "~1.1.0"
     },
     "require-dev": {

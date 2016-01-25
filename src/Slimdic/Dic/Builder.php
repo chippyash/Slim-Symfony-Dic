@@ -12,10 +12,7 @@
 namespace Slimdic\Dic;
 
 use Assembler\FFor;
-use chippyash\Type\BoolType;
 use chippyash\Type\String\StringType;
-use Monad\FTry;
-use Monad\Option;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\Config\FileLocator;
 
