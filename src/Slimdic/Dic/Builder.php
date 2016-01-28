@@ -13,7 +13,11 @@ namespace Slimdic\Dic;
 
 use Assembler\FFor;
 use chippyash\Type\String\StringType;
+use Symfony\Component\Config\Loader\DelegatingLoader;
+use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
 
 /**
@@ -40,28 +44,34 @@ abstract class Builder
     /**
      * Build and return the DIC
      *
-     * @param StringType $definitionXmlFile full path to xml dic definition file
+     * @param StringType $definitionFile full path to dic definition file
      *
      * @throws \Exception
      *
      * @return Container
      */
-    public static function buildDic(StringType $definitionXmlFile)
+    public static function buildDic(StringType $definitionFile)
     {
-        if (!file_exists($definitionXmlFile())) {
+        if (!file_exists($definitionFile())) {
             throw new \Exception(self::ERR_NO_DIC);
         }
 
         //create dic
-        return FFor::create(['definitionXmlFile' => $definitionXmlFile])
+        return FFor::create(['definitionFile' => $definitionFile])
             //create the DIC
             ->dic(function(){
                 return new ServiceContainer();
             })
             //do some processing on the DIC
-            ->process(function($dic, $definitionXmlFile) {
-                (new XmlFileLoader($dic, new FileLocator(dirname($definitionXmlFile()))))
-                    ->load($definitionXmlFile());
+            ->process(function($dic, $definitionFile) {
+                $fileLocator = new FileLocator(dirname($definitionFile()));
+                $fileLoaders = [
+                    new XmlFileLoader($dic, $fileLocator),
+                    new YamlFileLoader($dic, $fileLocator),
+                ];
+                (new DelegatingLoader(new LoaderResolver($fileLoaders)))->load($definitionFile());
+//                (new XmlFileLoader($dic, new FileLocator(dirname($definitionFile()))))
+//                    ->load($definitionFile());
                 self::preCompile($dic);
                 $dic->compile();
                 self::postCompile($dic);

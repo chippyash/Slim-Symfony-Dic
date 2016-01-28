@@ -9,19 +9,15 @@
 
 namespace Slimdic\Test\Dic;
 
-use chippyash\Type\BoolType;
 use chippyash\Type\String\StringType;
-use org\bovigo\vfs\vfsStream;
 use Slimdic\Dic\Builder;
-use Slimdic\Dic\ServiceContainer;
-use Symfony\Component\DependencyInjection\Definition;
 
 /**
- * Test the example DIC definition file
+ * Test the example DIC XML definition file
  */
 class ExampleFileTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCachedExampleFileContainerBehavesProperly()
+    public function testExampleFileContainerCompiles()
     {
         $exampleFile = realpath(__DIR__ . '/../../../../examples/dic.slim.xml');
 

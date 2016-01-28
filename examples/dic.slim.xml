@@ -2,7 +2,7 @@
 <!--
     DI container definition - Basic Slim V3 Usage
 
-    Copy this to your configuration directory
+    Copy this and the yaml parameters file to your configuration directory
 
     Use the <imports> directive to include this in your DIC definition
 -->
@@ -10,36 +10,12 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
+    <imports>
         <!-- You should not alter the service definitions, alter these parameters if required
         There are exceptions -see comments below
         -->
-        <parameter key="slim.config.httpVersion" type="string">1.1</parameter>
-        <parameter key="slim.config.outputBuffering">append</parameter>
-        <parameter key="slim.config.determineRouteBeforeAppMiddleware">false</parameter>
-        <parameter key="slim.config.displayErrorDetails">false</parameter>
-        <parameter key="slim.config.response.defaultContentType">text/html; charset=UTF-8</parameter>
-        <parameter key="slim.config.response.defaultStatus">200</parameter>
-        <parameter key="slim.config.response.chunkSize">4096</parameter>
-
-        <!-- You may want to add/amend these response headers for your application -->
-        <parameter key="slim.config.response.defaultheaders" type="collection">
-            <parameter key="Content-Type">%slim.config.response.defaultContentType%</parameter>
-        </parameter>
-
-        <!-- These are default classes as used by Slim. Change at your own risk -->
-        <parameter key="slim.config.className.settings">Slim\Collection</parameter>
-        <parameter key="slim.config.className.environment">Slim\Http\Environment</parameter>
-        <parameter key="slim.config.className.request">Slim\Http\Request</parameter>
-        <parameter key="slim.config.className.response">Slim\Http\Response</parameter>
-        <parameter key="slim.config.className.headers">Slim\Http\Headers</parameter>
-        <parameter key="slim.config.className.router">Slim\Router</parameter>
-        <parameter key="slim.config.className.foundHandler">Slim\Handlers\Strategies\RequestResponse</parameter>
-        <parameter key="slim.config.className.notFoundHandler">Slim\Handlers\NotFound</parameter>
-        <parameter key="slim.config.className.errorHandler">Slim\Handlers\Error</parameter>
-        <parameter key="slim.config.className.notAllowedHandler">Slim\Handlers\NotAllowed</parameter>
-        <parameter key="slim.config.className.callableResolver">Slim\CallableResolver</parameter>
-    </parameters>
+        <import resource="dic.slim.yml"/>
+    </imports>
 
     <!-- Unfortunately Slim is not namespacing its required configuration.  Hence you must
     be careful not to use the following service names yourself-->

@@ -13,7 +13,7 @@
       Slimdic\Test\Dic\ExampleFile
     
 
-*  Cached example file container behaves properly
+*  Example file container compiles
 
 ## 
       Slimdic\Test\Dic\ServiceContainer

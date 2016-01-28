@@ -31,7 +31,9 @@ Symfony version of a DI container with the lightweight Slim Framework, giving
 you the ability to create great, maintainable and configurable web sites quickly.
 
 The Builder supports XML DI definition.  XML is the most powerful and complete form 
-of Symfony DI configuration.
+of Symfony DI configuration.  The Builder also supports Yaml DI definition.  Many
+developers prefer to put the parameters into a Yaml file and service definitions into
+an XML file.  The supplied minimal example files demonstrate this usage.
 
 ## How?
 
@@ -50,8 +52,8 @@ $xmlDiFileLocation = '/mysite/cfg/dic.production.xml';
 $app = new App(Builder::buildDic(new StringType($xmlDiFileLocation)));
 </pre>
 
-Please see the examples/dic.slim.xml for the minimum that you need to build the DIC
-with to support Slim.  You are recommended to put the file in with the rest of your
+Please see the examples/dic.slim.xml and dic.slim.yml files for the minimum that you need to build the DIC
+with to support Slim.  You are recommended to put the files in with the rest of your
 DI configs and use the `<imports>` directive in your main config to pull it in.
 
 You can add to the compilation process by utilising the pre and post compile functions.
@@ -91,7 +93,7 @@ Builder::registerPreCompileFunction(function(ServiceContainer $dic) {
 });
 
 Builder::registerPostCompileFunction(function(ServiceContainer $dic, $stage) {
-    $dic->set('foo', 'bar');
+    $dic->set('foo', $myFooService);
 });
 </pre>
 
