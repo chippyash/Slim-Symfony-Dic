@@ -17,7 +17,7 @@ See the tests and the [Test Contract](https://github.com/chippyash/Slim-Symfony-
 
 ## What?
 
-Provides a [Symfony Dependency Injection Container](http://symfony.com/doc/current/components/dependency_injection/introduction.html) 
+Provides a [Symfony Dependency Injection Container V2](http://symfony.com/doc/current/components/dependency_injection/introduction.html) 
 for a [Slim Application V3](http://www.slimframework.com/)
 
 ## Why?
@@ -130,8 +130,6 @@ Install [Composer](https://getcomposer.org/)
 
 #### For production
 
-#####Not ready for production yet - please wait for first version
-
 add
 
 <pre>
@@ -169,4 +167,4 @@ license, which does not allow unrestricted inclusion of this code in commercial 
 
 ## History
 
-
+V1.0.0 Initial Release
