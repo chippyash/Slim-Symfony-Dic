@@ -9,8 +9,8 @@
 
 namespace Slimdic\Test\Dic;
 
-use chippyash\Type\BoolType;
-use chippyash\Type\String\StringType;
+use Chippyash\Type\BoolType;
+use Chippyash\Type\String\StringType;
 use org\bovigo\vfs\vfsStream;
 use Slimdic\Dic\Builder;
 use Slimdic\Dic\ServiceContainer;

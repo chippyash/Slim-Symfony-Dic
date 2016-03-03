@@ -40,7 +40,7 @@ an XML file.  The supplied minimal example files demonstrate this usage.
 To create and return a Slim\App object with a Symfony DIC:
 
 <pre>
-use chippyash\Type\String\StringType;
+use Chippyash\Type\String\StringType;
 use Slimdic\Dic\Builder;
 use Slim\App;
 
@@ -133,7 +133,7 @@ Install [Composer](https://getcomposer.org/)
 add
 
 <pre>
-    "chippyash/slim-symfony-dic": "~1.0"
+    "chippyash/slim-symfony-dic": "~1"
 </pre>
 
 to your composer.json "requires" section
@@ -168,3 +168,5 @@ license, which does not allow unrestricted inclusion of this code in commercial 
 ## History
 
 V1.0.0 Initial Release
+
+V1.1.0 Update dependencies

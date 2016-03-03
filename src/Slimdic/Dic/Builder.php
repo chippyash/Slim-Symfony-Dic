@@ -12,7 +12,7 @@
 namespace Slimdic\Dic;
 
 use Assembler\FFor;
-use chippyash\Type\String\StringType;
+use Chippyash\Type\String\StringType;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;

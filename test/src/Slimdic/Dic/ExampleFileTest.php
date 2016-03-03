@@ -9,7 +9,7 @@
 
 namespace Slimdic\Test\Dic;
 
-use chippyash\Type\String\StringType;
+use Chippyash\Type\String\StringType;
 use Slimdic\Dic\Builder;
 
 /**
