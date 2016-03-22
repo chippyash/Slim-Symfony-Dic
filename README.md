@@ -119,8 +119,7 @@ NB. Make sure you rebase to HEAD before your pull request
 The library is hosted at [Github](https://github.com/chippyash/Slim-Symfony-Dic). It is
 available at [Packagist.org](https://packagist.org/packages/chippyash/slim-symfony-dic)
 
-See [The (PHP) Matrix](http://the-matrix.github.io/packages/) for more PHP packages from
-this author.
+Check out [ZF4 Packages](http://zf4.biz/packages?utm_source=github&utm_medium=web&utm_campaign=blinks&utm_content=slimsymfonydic) for more packages
 
 See [My blog](http://zf4.biz) for ramblings on coding and curries
 
@@ -170,3 +169,5 @@ license, which does not allow unrestricted inclusion of this code in commercial 
 V1.0.0 Initial Release
 
 V1.1.0 Update dependencies
+
+V1.1.1 Add link to packages
