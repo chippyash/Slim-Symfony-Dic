@@ -2,11 +2,12 @@
 
 ## Quality Assurance
 
+![PHP 5.5](https://img.shields.io/badge/PHP-5.5-blue.svg)
+![PHP 5.6](https://img.shields.io/badge/PHP-5.6-blue.svg)
+![PHP 7](https://img.shields.io/badge/PHP-7-blue.svg)
 [![Build Status](https://travis-ci.org/chippyash/Slim-Symfony-Dic.svg?branch=master)](https://travis-ci.org/chippyash/Slim-Symfony-Dic)
 [![Code Climate](https://codeclimate.com/github/chippyash/Slim-Symfony-Dic/badges/gpa.svg)](https://codeclimate.com/github/chippyash/Slim-Symfony-Dic)
 [![Test Coverage](https://codeclimate.com/github/chippyash/Slim-Symfony-Dic/badges/coverage.svg)](https://codeclimate.com/github/chippyash/Slim-Symfony-Dic/coverage)
-
-Certified for PHP 5.5+
 
 The above badges represent the current development branch.  As a rule, I don't push
  to GitHub unless tests, coverage and usability are acceptable.  This may not be

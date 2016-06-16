@@ -3,9 +3,9 @@
  * Chippyash Slim DIC integration
  *
  * For Slim V3
- * 
+ *
  * DIC builder
- * 
+ *
  * @author Ashley Kitson
  * @copyright Ashley Kitson, 2014-2016, UK
  */
@@ -15,7 +15,6 @@ use Assembler\FFor;
 use Chippyash\Type\String\StringType;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
-use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
@@ -48,7 +47,7 @@ abstract class Builder
      *
      * @throws \Exception
      *
-     * @return Container
+     * @return ServiceContainer
      */
     public static function buildDic(StringType $definitionFile)
     {
@@ -57,22 +56,22 @@ abstract class Builder
         }
 
         //create dic
+        /** @noinspection PhpUndefinedMethodInspection */
         return FFor::create(['definitionFile' => $definitionFile])
             //create the DIC
-            ->dic(function(){
+            ->dic(function () {
                 return new ServiceContainer();
             })
             //do some processing on the DIC
-            ->process(function($dic, $definitionFile) {
+            ->process(function ($dic, $definitionFile) {
                 $fileLocator = new FileLocator(dirname($definitionFile()));
                 $fileLoaders = [
                     new XmlFileLoader($dic, $fileLocator),
                     new YamlFileLoader($dic, $fileLocator),
                 ];
                 (new DelegatingLoader(new LoaderResolver($fileLoaders)))->load($definitionFile());
-//                (new XmlFileLoader($dic, new FileLocator(dirname($definitionFile()))))
-//                    ->load($definitionFile());
                 self::preCompile($dic);
+                /** @noinspection PhpUndefinedMethodInspection */
                 $dic->compile();
                 self::postCompile($dic);
             })
@@ -119,7 +118,8 @@ abstract class Builder
      *
      * @param ServiceContainer $dic
      */
-    protected static function preCompile(ServiceContainer $dic) {
+    protected static function preCompile(ServiceContainer $dic)
+    {
         if (empty(self::$preCompileFunction)) {
             return;
         }
@@ -132,7 +132,8 @@ abstract class Builder
      *
      * @param ServiceContainer $dic
      */
-    protected static function postCompile(ServiceContainer $dic) {
+    protected static function postCompile(ServiceContainer $dic)
+    {
         if (empty(self::$postCompileFunction)) {
             return;
         }
