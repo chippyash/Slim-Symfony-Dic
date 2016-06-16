@@ -172,3 +172,6 @@ V1.0.0 Initial Release
 V1.1.0 Update dependencies
 
 V1.1.1 Add link to packages
+
+V1.1.2 Verify PHP 7 compatibilty
+
