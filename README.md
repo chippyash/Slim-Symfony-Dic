@@ -175,3 +175,4 @@ V1.1.1 Add link to packages
 
 V1.1.2 Verify PHP 7 compatibilty
 
+V1.1.3 Update Slim dependency to 3.* 
