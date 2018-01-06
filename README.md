@@ -16,6 +16,13 @@ The above badges represent the current development branch.  As a rule, I don't p
 
 See the tests and the [Test Contract](https://github.com/chippyash/Slim-Symfony-Dic/blob/master/docs/Test-Contract.md) for additional information.
 
+### End of life notice
+
+In March 2018, developer support will be withdrawn from this library for PHP <5.6. Older
+versions of PHP are now in such little use that the added effort of maintaining 
+compatibility is not effort effective.  See [PHP Version Stats](https://seld.be/notes/php-versions-stats-2017-1-edition)
+ for the numbers.
+
 ## What?
 
 Provides a [Symfony Dependency Injection Container V2](http://symfony.com/doc/current/components/dependency_injection/introduction.html) 
