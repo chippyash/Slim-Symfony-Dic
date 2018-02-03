@@ -2,7 +2,7 @@
   "name": "chippyash/slim-symfony-dic",
   "description": "Symfony 2 DIC integration for the Slim Framework 3",
   "homepage": "http://zf4.biz/packages?utm_source=packagist&utm_medium=web&utm_campaign=blinks&utm_content=slimsymfonydic",
-  "license": "GPL 3.0",
+  "license": "GPL-3.0-or-later",
   "keywords": [
     "symfony",
     "dependency",
@@ -27,7 +27,7 @@
     "chippyash/assembly-builder": ">=1,<2"
   },
   "require-dev": {
-    "phpunit/phpunit": ">=4.8.21,<5",
+    "phpunit/phpunit": ">=4.8.21,<5||~7.0.0",
     "mikey179/vfsStream": ">=1.6.0,<2"
   },
   "autoload": {
