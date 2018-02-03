@@ -4,7 +4,7 @@
 
 ![PHP 5.5](https://img.shields.io/badge/PHP-5.5-blue.svg)
 ![PHP 5.6](https://img.shields.io/badge/PHP-5.6-blue.svg)
-![PHP 7](https://img.shields.io/badge/PHP-7-blue.svg)
+![PHP 7.1](https://img.shields.io/badge/PHP-7.1-blue.svg)
 [![Build Status](https://travis-ci.org/chippyash/Slim-Symfony-Dic.svg?branch=master)](https://travis-ci.org/chippyash/Slim-Symfony-Dic)
 [![Code Climate](https://codeclimate.com/github/chippyash/Slim-Symfony-Dic/badges/gpa.svg)](https://codeclimate.com/github/chippyash/Slim-Symfony-Dic)
 [![Test Coverage](https://codeclimate.com/github/chippyash/Slim-Symfony-Dic/badges/coverage.svg)](https://codeclimate.com/github/chippyash/Slim-Symfony-Dic/coverage)
@@ -137,10 +137,16 @@ Install [Composer](https://getcomposer.org/)
 
 #### For production
 
-add
+PHP == 5.5|5.6
 
 <pre>
     "chippyash/slim-symfony-dic": "~1"
+</pre>
+
+
+PHP >= 7.1
+<pre>
+    "chippyash/slim-symfony-dic": "~2"
 </pre>
 
 to your composer.json "requires" section
@@ -187,3 +193,6 @@ V1.1.3 Update Slim dependency to 3.*
 V1.1.4 Update dependencies
 
 V1.1.5 Update build script
+
+V2.0.0 PHP 7.0 support withdrawn, updated to use 7.1, primarily because of underlaying 
+libraries that don't support 7.0

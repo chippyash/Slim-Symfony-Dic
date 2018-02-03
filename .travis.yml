@@ -6,10 +6,8 @@ php:
   - 5.5
   # aliased to a recent 5.6.x version
   - 5.6
-  # aliased to a recent 7.x version
-  - 7
-  # hhvm
-  #- hhvm
+  # aliased to a recent 7.1 version
+  - 7.1
 
 before_script:
   - composer install --no-interaction

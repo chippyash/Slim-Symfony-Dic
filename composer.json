@@ -17,13 +17,13 @@
     }
   ],
   "require": {
-    "php": ">=5.5",
+    "php": "~5.5||~7.1",
     "slim/slim": ">=3,<4",
-    "symfony/dependency-injection": ">=2.8.2,<3",
-    "symfony/expression-language": ">2.8.2,<3",
-    "symfony/config": ">=2.8.2,<3",
-    "symfony/yaml": ">=2.8.2,<3",
-    "chippyash/strong-type": ">=3,<5",
+    "symfony/dependency-injection": "~2.8.34||~4.0.4",
+    "symfony/expression-language": "~2.8.34||~4.0.4",
+    "symfony/config": "~2.8.34||~4.0.4",
+    "symfony/yaml": "2.8.34||4.0.4",
+    "chippyash/strong-type": ">=4,<5",
     "chippyash/assembly-builder": ">=1,<2"
   },
   "require-dev": {

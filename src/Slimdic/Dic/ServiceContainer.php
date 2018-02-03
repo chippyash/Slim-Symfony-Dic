@@ -29,11 +29,12 @@ class ServiceContainer extends ContainerBuilder implements IOPContainerInterface
      * edge case that a parameter has the same name as a service.
      *
      * @param string $id
-     * @param int $invalidBehavior
+     * @param int    $invalidBehavior
      *
      * @return mixed
      *
      * @throws InvalidArgumentException
+     * @throws \Exception
      */
     public function get($id, $invalidBehavior = SymContainerInterface::EXCEPTION_ON_INVALID_REFERENCE)
     {
