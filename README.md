@@ -26,9 +26,9 @@ compatibility is not effort effective.  See [PHP Version Stats](https://seld.be/
 ## What?
 
 Provides a [Symfony Dependency Injection Container V2](https://symfony.com/doc/2.8/service_container.html)
-or [Symfony Dependency Injection Container V3](https://symfony.com/doc/3.4/service_container.html)
+or [Symfony Dependency Injection Container V4](https://symfony.com/doc/current/service_container.html)
 for a [Slim Application V3](http://www.slimframework.com/).  The DI container depends on the 
-version of PHP you are using.  < 7, then V2, >=7.1 then V3
+version of PHP you are using.  < 7, then V2, >=7.1 then V4
 
 ## Why?
 
