@@ -200,4 +200,4 @@ V1.1.5 Update build script
 V2.0.0 PHP 7.0 support withdrawn, updated to use 7.1, primarily because of underlaying 
 libraries that don't support 7.0
 
-V2.0.1 Fix unit tests to run under PHP 7.1
+V2.0.2 Fix unit tests to run under PHP 7.1
