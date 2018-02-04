@@ -7,19 +7,17 @@
  * @license GPL V3+ See LICENSE.md
  */
 
-namespace Slimdic\Test\Dic;
+namespace Test\Slimdic\Dic;
 
-use Chippyash\Type\BoolType;
 use Chippyash\Type\String\StringType;
 use org\bovigo\vfs\vfsStream;
+use Psr\Container\ContainerInterface;
 use Slimdic\Dic\Builder;
 use Slimdic\Dic\ServiceContainer;
 use Symfony\Component\DependencyInjection\Definition;
+use Test\Slimdic\TestCase;
 
-/**
- * Class BuilderTest
- */
-class BuilderTest extends \PHPUnit_Framework_TestCase
+class BuilderTest extends TestCase
 {
     /**
      * @var string
@@ -46,39 +44,54 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $dic = Builder::buildDic(
             new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName)
         );
-        $this->assertInstanceOf('Slimdic\Dic\ServiceContainer', $dic);
+        if (PHP_MAJOR_VERSION < 7) {
+            $this->assertInstanceOf('Slimdic\Dic\ServiceContainer', $dic);
+        } else {
+            $this->assertInstanceOf('Symfony\Component\DependencyInjection\ContainerBuilder', $dic);
+        }
     }
 
     /**
      * @expectedException \Exception
      * @expectedExceptionMessage Cannot find DIC definition
      */
-    public function testSpecifyingANonExistentDefinitionFileWillThrowAnException()
+    public function testSpecifyingANonExistentDefinitionFileWillThrowAnException(
+    )
     {
         Builder::buildDic(
             new StringType('foo.xml')
         );
     }
 
-    public function testYouCanDoPreCompilationTasksByRegisteringAPrecompileFunction()
+    public function testYouCanDoPreCompilationTasksByRegisteringAPrecompileFunction(
+    )
     {
-        Builder::registerPreCompileFunction(function(ServiceContainer $dic) {
-            $dic->setParameter('foo', 'bar');
-        });
+        Builder::registerPreCompileFunction(
+            function ($dic) {
+                $dic->setParameter('foo', 'bar');
+            }
+        );
         $dic = Builder::buildDic(
             new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName)
         );
-        $this->assertEquals('bar', $dic->get('foo'));
+        $this->assertEquals('bar', $dic->getParameter('foo'));
     }
 
-    public function testYouCanDoPostCompilationTasksByRegisteringAPostcompileFunction()
+    public function testYouCanDoPostCompilationTasksByRegisteringAPostcompileFunction(
+    )
     {
-        Builder::registerPreCompileFunction(function(ServiceContainer $dic) {
-            $dic->setDefinition('foo', (new Definition())->setSynthetic(true));
-        });
-        Builder::registerPostCompileFunction(function(ServiceContainer $dic) {
-            $dic->set('foo', 'bar');
-        });
+        Builder::registerPreCompileFunction(
+            function ($dic) {
+                $dic->setDefinition(
+                    'foo', (new Definition())->setSynthetic(true)
+                );
+            }
+        );
+        Builder::registerPostCompileFunction(
+            function ($dic) {
+                $dic->set('foo', 'bar');
+            }
+        );
         $dic = Builder::buildDic(
             new StringType($this->rootPath . '/Site/cfg/' . $this->dicFileName)
         );
@@ -87,6 +100,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Return minimal DIC definition
+     *
      * @return string
      */
     private function dicDefinition()
@@ -95,16 +109,16 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         return <<<EOT
 <?xml version="1.0" encoding="utf-8" ?>
 <container xmlns="http://symfony.com/schema/dic/services"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
-        <parameter key="foofoo">foofoo</parameter>
-    </parameters>
+<parameters>
+    <parameter key="foofoo">foofoo</parameter>
+</parameters>
 
-    <services>
-        <service id="barbar" class="stdClass"/>
-    </services>
+<services>
+    <service id="barbar" class="stdClass"/>
+</services>
 </container>
 EOT;
     }

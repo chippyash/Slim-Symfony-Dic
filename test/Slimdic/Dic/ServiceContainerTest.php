@@ -7,15 +7,17 @@
  * @license GPL V3+ See LICENSE.md
  */
 
-namespace Slimdic\Test\Dic;
+namespace Test\Slimdic\Dic;
 
 use Slimdic\Dic\ServiceContainer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Test\Slimdic\TestCase;
 
-class ServiceContainerTest extends \PHPUnit_Framework_TestCase
+class ServiceContainerTest extends TestCase
 {
     /**
      * System Under Test
+     *
      * @var ServiceContainer
      */
     protected $sut;
@@ -46,12 +48,18 @@ class ServiceContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testYouCanThrowAnExceptionIfYouCannotGetAContainerEntry()
     {
-        $this->sut->get('foobar', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE);
+        $this->sut->get(
+            'foobar', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE
+        );
     }
 
     public function testYouCanReturnNullIfYouCannotGetAContainerEntry()
     {
-        $this->assertNull($this->sut->get('foobar', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+        $this->assertNull(
+            $this->sut->get(
+                'foobar', ContainerInterface::NULL_ON_INVALID_REFERENCE
+            )
+        );
     }
 
     /**
@@ -59,6 +67,10 @@ class ServiceContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testYouCanReturnVoidIfYouCannotGetAContainerEntry()
     {
-        $this->assertEmpty($this->sut->get('foobar', ContainerInterface::IGNORE_ON_INVALID_REFERENCE));
+        $this->assertEmpty(
+            $this->sut->get(
+                'foobar', ContainerInterface::IGNORE_ON_INVALID_REFERENCE
+            )
+        );
     }
 }

@@ -1,23 +1,17 @@
 # Chippyash Slim V3 and Symfony DIC Integration
 
-## 
-      Slimdic\Test\Dic\Builder
-    
+## Slimdic\Dic\Builder
 
 *  You can create a container
 *  Specifying a non existent definition file will throw an exception
 *  You can do pre compilation tasks by registering a precompile function
 *  You can do post compilation tasks by registering a postcompile function
 
-## 
-      Slimdic\Test\Dic\ExampleFile
-    
+## Slimdic\Dic\ExampleFile
 
 *  Example file container compiles
 
-## 
-      Slimdic\Test\Dic\ServiceContainer
-    
+## Slimdic\Dic\ServiceContainer
 
 *  You can test for a parameter or a service via the has method
 *  You can get a parameter or a service via the get method

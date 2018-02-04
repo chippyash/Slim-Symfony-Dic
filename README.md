@@ -25,8 +25,10 @@ compatibility is not effort effective.  See [PHP Version Stats](https://seld.be/
 
 ## What?
 
-Provides a [Symfony Dependency Injection Container V2](http://symfony.com/doc/current/components/dependency_injection/introduction.html) 
-for a [Slim Application V3](http://www.slimframework.com/)
+Provides a [Symfony Dependency Injection Container V2](https://symfony.com/doc/2.8/service_container.html)
+or [Symfony Dependency Injection Container V3](https://symfony.com/doc/3.4/service_container.html)
+for a [Slim Application V3](http://www.slimframework.com/).  The DI container depends on the 
+version of PHP you are using.  < 7, then V2, >=7.1 then V3
 
 ## Why?
 
@@ -60,9 +62,10 @@ $xmlDiFileLocation = '/mysite/cfg/dic.production.xml';
 $app = new App(Builder::buildDic(new StringType($xmlDiFileLocation)));
 </pre>
 
-Please see the examples/dic.slim.xml and dic.slim.yml files for the minimum that you need to build the DIC
-with to support Slim.  You are recommended to put the files in with the rest of your
-DI configs and use the `<imports>` directive in your main config to pull it in.
+Please see the examples/dic.slim.v2.xml, examples/dic.slim.v3.xml and examples/dic.slim.yml 
+files for the minimum that you need to build the DIC with to support Slim.  You are 
+recommended to put the files in with the rest of your DI configs and use the `<imports>` 
+directive in your main config to pull it in.
 
 You can add to the compilation process by utilising the pre and post compile functions.
 This is often useful for setting up synthetic services or initialising parameters in
@@ -76,7 +79,7 @@ The PreCompile function is called just before the container is compiled.
 use Slimdic\Dic\ServiceContainer;
 use Symfony\Component\DependencyInjection\Definition;
 
-Builder::registerPreCompileFunction(function(ServiceContainer $dic) {
+Builder::registerPreCompileFunction(function($dic) {
     //set a parameter
     $dic->setParameter('foo', 'bar');
     //set up a synthetic
@@ -96,11 +99,11 @@ after compilation the rest of the DI Container is frozen and cannot be changed.
 <pre>
 use Slimdic\Dic\ServiceContainer;
 
-Builder::registerPreCompileFunction(function(ServiceContainer $dic) {
+Builder::registerPreCompileFunction(function($dic) {
     $dic->setDefinition('foo', (new Definition())->setSynthetic(true));
 });
 
-Builder::registerPostCompileFunction(function(ServiceContainer $dic, $stage) {
+Builder::registerPostCompileFunction(function($dic, $stage) {
     $dic->set('foo', $myFooService);
 });
 </pre>
@@ -196,3 +199,5 @@ V1.1.5 Update build script
 
 V2.0.0 PHP 7.0 support withdrawn, updated to use 7.1, primarily because of underlaying 
 libraries that don't support 7.0
+
+V2.0.1 Fix unit tests to run under PHP 7.1

@@ -13,8 +13,10 @@ namespace Slimdic\Dic;
 
 use Assembler\FFor;
 use Chippyash\Type\String\StringType;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
@@ -60,7 +62,7 @@ abstract class Builder
         return FFor::create(['definitionFile' => $definitionFile])
             //create the DIC
             ->dic(function () {
-                return new ServiceContainer();
+                return PHP_MAJOR_VERSION < 7 ? new ServiceContainer() : new ContainerBuilder();
             })
             //do some processing on the DIC
             ->process(function ($dic, $definitionFile) {
@@ -116,9 +118,9 @@ abstract class Builder
     /**
      * Do some processing on dic before compilation
      *
-     * @param ServiceContainer $dic
+     * @param ContainerInterface $dic
      */
-    protected static function preCompile(ServiceContainer $dic)
+    protected static function preCompile(ContainerInterface $dic)
     {
         if (empty(self::$preCompileFunction)) {
             return;
@@ -130,9 +132,9 @@ abstract class Builder
     /**
      * Do some processing on dic after compilation
      *
-     * @param ServiceContainer $dic
+     * @param ContainerInterface $dic
      */
-    protected static function postCompile(ServiceContainer $dic)
+    protected static function postCompile(ContainerInterface $dic)
     {
         if (empty(self::$postCompileFunction)) {
             return;
