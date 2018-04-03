@@ -2,7 +2,6 @@
 
 ## Quality Assurance
 
-![PHP 5.5](https://img.shields.io/badge/PHP-5.5-blue.svg)
 ![PHP 5.6](https://img.shields.io/badge/PHP-5.6-blue.svg)
 ![PHP 7.1](https://img.shields.io/badge/PHP-7.1-blue.svg)
 [![Build Status](https://travis-ci.org/chippyash/Slim-Symfony-Dic.svg?branch=master)](https://travis-ci.org/chippyash/Slim-Symfony-Dic)
@@ -16,12 +15,8 @@ The above badges represent the current development branch.  As a rule, I don't p
 
 See the tests and the [Test Contract](https://github.com/chippyash/Slim-Symfony-Dic/blob/master/docs/Test-Contract.md) for additional information.
 
-### End of life notice
-
-In March 2018, developer support will be withdrawn from this library for PHP <5.6. Older
-versions of PHP are now in such little use that the added effort of maintaining 
-compatibility is not effort effective.  See [PHP Version Stats](https://seld.be/notes/php-versions-stats-2017-1-edition)
- for the numbers.
+Please note that developer support for PHP5.5 was withdrawn at version 3.0.0 of this library.
+If you need support for PHP 5.5, please use a version `>=2,<3`
 
 ## What?
 
@@ -140,16 +135,8 @@ Install [Composer](https://getcomposer.org/)
 
 #### For production
 
-PHP == 5.5|5.6
-
 <pre>
-    "chippyash/slim-symfony-dic": "~1"
-</pre>
-
-
-PHP >= 7.1
-<pre>
-    "chippyash/slim-symfony-dic": "~2"
+    "chippyash/slim-symfony-dic": ">=3,<4"
 </pre>
 
 to your composer.json "requires" section
@@ -201,3 +188,5 @@ V2.0.0 PHP 7.0 support withdrawn, updated to use 7.1, primarily because of under
 libraries that don't support 7.0
 
 V2.0.2 Fix unit tests to run under PHP 7.1
+
+V3.0.0 BC Break.  Withdraw support for PHP <5.6
