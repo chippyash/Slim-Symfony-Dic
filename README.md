@@ -160,13 +160,9 @@ To run the tests:
 
 ## License
 
-This software library is released under the [GNU GPL V3 or later license](http://www.gnu.org/copyleft/gpl.html)
+This software library is released under the [BSD 3 Clause license](https://opensource.org/licenses/BSD-3-Clause)
 
-This software library is Copyright (c) 2016, Ashley Kitson, UK
-
-A commercial license is available for this software library, please contact the author. 
-It is normally free to deserving causes, but gets you around the limitation of the GPL
-license, which does not allow unrestricted inclusion of this code in commercial works.
+This software library is Copyright (c) 2016-2018, Ashley Kitson, UK
 
 ## History
 
@@ -190,3 +186,5 @@ libraries that don't support 7.0
 V2.0.2 Fix unit tests to run under PHP 7.1
 
 V3.0.0 BC Break.  Withdraw support for PHP <5.6
+
+V3.1.0 Change of license from GPL V3 to BSD 3 Clause 
