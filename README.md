@@ -188,3 +188,5 @@ V2.0.2 Fix unit tests to run under PHP 7.1
 V3.0.0 BC Break.  Withdraw support for PHP <5.6
 
 V3.1.0 Change of license from GPL V3 to BSD 3 Clause 
+
+V3.1.1 dependency update
